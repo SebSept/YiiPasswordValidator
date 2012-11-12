@@ -56,6 +56,10 @@ Use to the _fullapp_ branch to fork (include phpunit's unit tests)
 - Add a 'max' parameter to avoid using another rule for attribute length.
 - Add a 'preset' parameter so validator can be quicky parametrized with for example array('password','ext.SPasswordValidator', 'preset' => 'relax')
 
-## Licence
+## Licences
 
-Code is published under the [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) licence](http://creativecommons.org/licenses/by-sa/3.0/deed)
+This code is published under the [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) licence](http://creativecommons.org/licenses/by-sa/3.0/deed).
+
+### Included
+
+the _fullapp_ branch includes [YiiDocumentor](http://github.com/laMarciana/yiiDocumentor) published under the GNU LESSER GENERAL PUBLIC LICENSE 3
