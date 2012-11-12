@@ -24,7 +24,7 @@ It's to use for a form/model validation rule.
     public function rules()
     {
         return array(
-            array('password','ext.SPasswordValidator.SPasswordValidator');
+            array('password','ext.SPasswordValidator.SPasswordValidator')
         );
     }
 ```
@@ -37,7 +37,7 @@ Number of upper case chars set to 1, minimum number of characters set to 10.
     public function rules()
     {
         return array(
-            array('password','ext.SPasswordValidator.SPasswordValidator', 'up' => 1, 'min' => 10);
+            array('password','ext.SPasswordValidator.SPasswordValidator', 'up' => 1, 'min' => 10)
         );
     }
 
