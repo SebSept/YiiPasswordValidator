@@ -191,7 +191,80 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'spec' => 0);
         $this->assertTrue($this->model->validate());
     }
-            
+
+    /**
+    * Undefined preset throw exception
+    * @expectedException
+    * @todo doc
+    */
+    public function testPresetUndefined()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'doesntexists');
+        $this->model->validate();
+    }
+
+    /**
+    * Preset 'soft' exists
+    * @todo doc
+    */
+    public function testPresetExistsSoft()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'soft');
+        $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Preset 'normal' exists
+    * @todo doc
+    */
+    public function testPresetExistsNormal()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'normal');
+        $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Preset 'strong' exists
+    * @todo doc
+    */
+    public function testPresetExistsStrong()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
+        $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Preset 'soft' validation
+    * 
+    * @todo doc
+    */
+    public function testPresetExistsSoft()
+    {
+	$this->model->password = 'Sebv7!';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'soft');
+        $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Preset 'normal' validation
+    * @todo doc
+    */
+    public function testPresetExistsNormal()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'normal');
+        $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Preset 'strong' exists
+    * @todo doc
+    */
+    public function testPresetExistsStrong()
+    {
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
+        $this->assertTrue($this->model->validate());
+    }
+
 }
 
 ?>
