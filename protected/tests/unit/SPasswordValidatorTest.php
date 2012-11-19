@@ -210,12 +210,12 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * Preset 'soft' exists
+    * Preset 'relax' exists
     * @todo doc
     */
-    public function testPresetExistsSoft()
+    public function testPresetExistsRelax()
     {
-        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'soft');
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'relax');
         $this->assertTrue($this->model->validate());
     }
 
@@ -240,14 +240,14 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * Preset 'soft' validation
+    * Preset 'relax' validation
     * 
     * @todo doc
     */
-    public function testPresetValidateSoft()
+    public function testPresetValidateRelax()
     {
-	$this->model->password = 'Sebv7!';
-        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'soft');
+//	$this->model->password = 'Sebv7!';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'relax');
         $this->assertTrue($this->model->validate());
     }
 

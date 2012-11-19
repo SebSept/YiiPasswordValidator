@@ -94,6 +94,7 @@ class SPasswordValidator extends CValidator
      */
     protected function validateAttribute($object, $attribute)
     {
+        $this->applyPreset();
 //        $this->checkParams();
         $value = $object->$attribute;
 
@@ -174,7 +175,7 @@ class SPasswordValidator extends CValidator
         if(!$this->preset)
             return;
 
-        if(array_key_exist($this->preset, $this->_presets))
+        if(array_key_exists($this->preset, $this->_presets))
         {
              foreach($this->_presets[$this->preset] As $param => $value)
              {
