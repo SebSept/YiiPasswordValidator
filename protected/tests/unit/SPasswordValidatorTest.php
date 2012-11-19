@@ -211,12 +211,13 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Preset 'relax' exists
+    * no exception so that preset exists
     * @todo doc
     */
     public function testPresetExistsRelax()
     {
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'relax');
-        $this->assertTrue($this->model->validate());
+        $this->model->validate();
     }
 
     /**
@@ -226,7 +227,7 @@ class SPasswordValidatorTest extends CTestCase
     public function testPresetExistsNormal()
     {
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'normal');
-        $this->assertTrue($this->model->validate());
+        $this->model->validate();
     }
 
     /**
@@ -236,7 +237,7 @@ class SPasswordValidatorTest extends CTestCase
     public function testPresetExistsStrong()
     {
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
-        $this->assertTrue($this->model->validate());
+        $this->model->validate();
     }
 
     /**
@@ -246,7 +247,7 @@ class SPasswordValidatorTest extends CTestCase
     */
     public function testPresetValidateRelax()
     {
-//	$this->model->password = 'Sebv7!';
+	$this->model->password = 'Sebv7x';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'relax');
         $this->assertTrue($this->model->validate());
     }
@@ -257,6 +258,7 @@ class SPasswordValidatorTest extends CTestCase
     */
     public function testPresetValidateNormal()
     {
+	$this->model->password = 'SEb7x/';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'normal');
         $this->assertTrue($this->model->validate());
     }
@@ -267,6 +269,7 @@ class SPasswordValidatorTest extends CTestCase
     */
     public function testPresetValidateStrong()
     {
+	$this->model->password = '/SeBv77/';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
         $this->assertTrue($this->model->validate());
     }
