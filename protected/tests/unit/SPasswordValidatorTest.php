@@ -238,7 +238,7 @@ class SPasswordValidatorTest extends CTestCase
     * 
     * @todo doc
     */
-    public function testPresetExistsSoft()
+    public function testPresetValidateSoft()
     {
 	$this->model->password = 'Sebv7!';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'soft');
@@ -249,7 +249,7 @@ class SPasswordValidatorTest extends CTestCase
     * Preset 'normal' validation
     * @todo doc
     */
-    public function testPresetExistsNormal()
+    public function testPresetValidateNormal()
     {
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'normal');
         $this->assertTrue($this->model->validate());
@@ -259,7 +259,7 @@ class SPasswordValidatorTest extends CTestCase
     * Preset 'strong' exists
     * @todo doc
     */
-    public function testPresetExistsStrong()
+    public function testPresetValidateStrong()
     {
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
         $this->assertTrue($this->model->validate());
