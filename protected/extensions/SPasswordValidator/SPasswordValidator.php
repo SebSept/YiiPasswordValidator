@@ -1,15 +1,15 @@
 <?php
 /**
- * SPasswordValidator 
- * 
+ * SPasswordValidator
+ *
  * Validator for passwords.
  * Ensure password is strong (at least with default parameters)
- * 
+ *
  * @author Sébastien Monterisi <sebastienmonterisi@yahoo.fr>
  * @version 1.1
  */
 class SPasswordValidator extends CValidator
-{    
+{
     /**
      *
      * @var int minimal number of characters
@@ -28,13 +28,13 @@ class SPasswordValidator extends CValidator
 
     /**
      *
-     * @var int minimal number of special characters 
+     * @var int minimal number of special characters
      */
     public $spec = 2;
-    
+
     /**
      *
-     * @var int  minimal number of digit characters 
+     * @var int  minimal number of digit characters
      */
     public $digit = 2;
 
@@ -45,8 +45,41 @@ class SPasswordValidator extends CValidator
     public $preset;
 
     /**
+    * @var preset allowed values
+    */
+    private $_presets = array(
+	self::PRESET_RELAX => array(
+		'min' => 6,
+		'up' => 1,
+		'low' => 1,
+		'digit' => 1,
+		'spec' => 0
+	),
+	self::PRESET_NORMAL => array(
+                'min' => 6,
+                'up' => 2,
+		'low' => 2,
+                'digit' => 1,
+                'spec' => 1
+        ),
+	self::PRESET_STRONG => array(
+                'min' => 8,
+                'up' => 2,
+		'low' => 2,
+                'digit' => 2,
+                'spec' => 2
+        ),
+);
+
+    const PRESET_RELAX = 'relax';
+    const PRESET_NORMAL = 'normal';
+    const PRESET_STRONG = 'strong';
+
+
+
+    /**
      * Validation
-     * 
+     *
      * Function checks whether fulfill this requirements  :
      * <ul>
      *  <li>is a string</li>
@@ -62,7 +95,6 @@ class SPasswordValidator extends CValidator
     protected function validateAttribute($object, $attribute)
     {
 //        $this->checkParams();
-        
         $value = $object->$attribute;
 
         // is a string
@@ -133,6 +165,35 @@ class SPasswordValidator extends CValidator
         }
     }
 
+    /**
+    * Apply Preset parameter if set
+    * @return void
+    */
+    private function applyPreset()
+    {
+        if(!$this->preset)
+            return;
+
+        if(array_key_exist($this->preset, $this->_presets))
+        {
+             foreach($this->_presets[$this->preset] As $param => $value)
+             {
+                 $this->$param = $value;
+             }
+        }
+	else
+		throw new CException("invalid preset '$this->preset'.");
+    }
+
+    /**
+    *
+    *
+    */
+/*    private function checkParams()
+   {
+
+   }
+*/
     /**
     * Adds an error about the specified attribute to the active record.
     * This is a helper method that call addError which performs message selection and internationalization.

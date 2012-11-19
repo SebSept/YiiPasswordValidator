@@ -13,13 +13,19 @@
  *  <li>insufficient special characters</li>
  *  <li>insufficient total number of characters (also check changing min param)</li>
  * </ul>
- * with Changed params
+ *
+ * With Changed params
  * <ul>
  * <li>changed low param</li>
  * <li>changed up param</li>
  * <li>changed spec param</li>
  * <li>changed digit param</li>
  * <li>changed min param (@see ::testOnInsufficientNumberOfCharacters() )</li>
+ * </ul>
+ *
+ * With Presets
+ * <ul>
+ * <li></li>
  * </ul>
  * 
  * @author Sebastien Monterisi <sebastienmonterisi@yahoo.fr>
@@ -40,12 +46,12 @@ class SPasswordValidatorTest extends CTestCase
     {
         $this->model = new TestModel();
     }
-    
+
     /**
      * Assert that the string in param is present in the error messages.
-     * 
+     *
      * Checks in $this->model->errors array.
-     * 
+     *
      * @param string $string Error message to find
      * @return void
      */
@@ -100,7 +106,7 @@ class SPasswordValidatorTest extends CTestCase
         $this->assertFalse($this->model->validate());
         $this->assertErrorStringHas('lower case');
     }
-    
+
      /**
      * password with no upper case character
      */
@@ -120,7 +126,7 @@ class SPasswordValidatorTest extends CTestCase
         $this->assertFalse($this->model->validate());
         $this->assertErrorStringHas('special');
     }
-    
+
      /**
      * password with no special character
      */
@@ -129,11 +135,11 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->password = 'zgtypTKV^é-';
         $this->assertFalse($this->model->validate());
         $this->assertErrorStringHas('digit');
-    }    
-    
+    }
+
     /**
      * - password without enough characters /  min = 10
-     * - test SPasswordValidor 'min' param 
+     * - test SPasswordValidor 'min' param
      */
     public function testOnInsufficientNumberOfCharacters()
     {
@@ -141,7 +147,7 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->password = 'zgTK^é84';
         $this->assertFalse($this->model->validate());
     }
-    
+
     /**
      * - Validation ok, all conditions satisfied
      */
@@ -161,9 +167,9 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'low' => 1);
         $this->assertTrue($this->model->validate());
     }
-    
+
      /**
-     * - test SPasswordValidor 'up' param 
+     * - test SPasswordValidor 'up' param
      */
     public function testChangedUp()
     {
@@ -171,20 +177,20 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'up' => 0);
         $this->assertTrue($this->model->validate());
     }
-    
-        /**
-     * - test SPasswordValidor 'digit' param 
-     */
+
+    /**
+    * - test SPasswordValidor 'digit' param 
+    */
     public function testChangedDigit()
     {
         $this->model->password = 'aGTYP!§%5x';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'digit' => 1);
         $this->assertTrue($this->model->validate());
     }
-    
-     /**
-     * - test SPasswordValidor 'spec' param 
-     */
+
+    /**
+    * - test SPasswordValidor 'spec' param 
+    */
     public function testChangedSpec()
     {
         $this->model->password = 'aGTYPdze57m';
@@ -194,7 +200,7 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Undefined preset throw exception
-    * @expectedException
+    * @expectedException CException
     * @todo doc
     */
     public function testPresetUndefined()
