@@ -6,7 +6,7 @@
  * Ensure password is strong (at least with default parameters)
  * 
  * @author Sébastien Monterisi <sebastienmonterisi@yahoo.fr>
- * @version 0.2
+ * @version 1.1
  */
 class SPasswordValidator extends CValidator
 {    
@@ -38,7 +38,11 @@ class SPasswordValidator extends CValidator
      */
     public $digit = 2;
 
-
+    /**
+    * If not null preset params will override other params
+    * @var string preset
+    */
+    public $preset;
 
     /**
      * Validation
