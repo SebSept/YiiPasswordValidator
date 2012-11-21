@@ -28,8 +28,13 @@
  * <li>uniexistant preset</li>
  * <li>presets 'relax', 'normal', 'strong' exist</li>
  * <li>tests the presets</li>
+ * <li>preset values override others, except max</li>
  * </ul>
- * 
+ *
+ * <ul>
+ * <li></li>
+ * <li></li>
+ * </ul>
  * @author Sebastien Monterisi <sebastienmonterisi@yahoo.fr>
  */
 class SPasswordValidatorTest extends CTestCase
@@ -268,13 +273,30 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * Params set by preset param overrides single params
-    * @todo doc
+    * Set 'preset' param + max param
+    * 10 chars password should validate with 'relax' preset but not with 'max'=1
     */
-    public function testPresetOverridesSingle()
+    public function testPresetParamDoNotOverridesMax()
     {
-        $this->markTestIncomplete();
+	$this->model->password = '/SeBv3a77/';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'max' => 6 
+		,'preset' => 'relax');
+        $this->assertFalse($this->model->validate());
     }
+
+    /**
+    * Set 'preset' param + max another (digit)
+    * Digit param must not override the preset value
+    */
+    public function testPresetParamOverridesOthers()
+    {
+        $this->model->password = '/SeBv3a77/';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'digit' => 6 
+                ,'preset' => 'relax');
+	$this->model->validate();
+        $this->assertTrue($this->model->validate());
+    }
+
 
     /**
     * Param 'max'
@@ -284,19 +306,22 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->password = '/SeBv77soit"soverTen/';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'max' => 10);
         $this->assertFalse($this->model->validate());
-        //$this->markTestIncomplete();
     }
 
     /**
     * Param 'max' is too low for the attribute to validate
     * eg 2 digits + 3 uppers and 'max'=4 : validation is impossible
-    * @exceptedException CException 
+    * @expectedException CException
     */
     public function testMaxTooLow()
     {
-        $this->markTestIncomplete();
+	$this->model->password = '/SeBv77soit"soverTen/';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 
+		'up' => 4, 
+		'low' => 4, 
+		'digit' => 4,
+		'max' => 10);
+        $this->model->validate();
     }
 
 }
-
-?>

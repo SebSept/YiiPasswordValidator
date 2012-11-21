@@ -39,7 +39,7 @@ class SPasswordValidator extends CValidator
     public $digit = 2;
 
     /**
-    * No limit if not set
+    * No limit if not set. Provided to avoid using length validator
     * @var int maximum number of chars
     */
     public $max;
@@ -51,6 +51,7 @@ class SPasswordValidator extends CValidator
     public $preset;
 
     /**
+    * Do not set a max param in preset because it will override the one provided by validator param
     * @var preset allowed values
     */
     private $_presets = array(
@@ -101,7 +102,8 @@ class SPasswordValidator extends CValidator
     protected function validateAttribute($object, $attribute)
     {
         $this->applyPreset();
-//        $this->checkParams();
+        $this->checkParams();
+
         $value = $object->$attribute;
 
         // is a string
@@ -173,11 +175,11 @@ class SPasswordValidator extends CValidator
 
         // max length
         $found = strlen($value);
-        if($this->max && $found > $this->max)
+        if($this->max && ($found > $this->max) )
         {
 		$this->addErrorInternal($object, 
                                     $attribute, 
-                                    "", 
+                                    "max", 
                                     array('found' => $found, 'required' => $this->max)
             );
 
@@ -205,14 +207,17 @@ class SPasswordValidator extends CValidator
     }
 
     /**
-    *
-    *
+    * Checks the provided parameters
+    * Checks if sum of required params values is greater than max
+    * @throw CException if more than max
     */
-/*    private function checkParams()
-   {
+    private function checkParams()
+    {
+        $this->max = (int) $this->max;
+        if($this->max && ($this->up + $this->digit + $this->low + $this->spec) > $this->max)
+	    throw new CException('Total number of required characters is greater than max : Validation is impossible !');
+    }
 
-   }
-*/
     /**
     * Adds an error about the specified attribute to the active record.
     * This is a helper method that call addError which performs message selection and internationalization.
@@ -235,4 +240,3 @@ class SPasswordValidator extends CValidator
 
 }
 
-?>
