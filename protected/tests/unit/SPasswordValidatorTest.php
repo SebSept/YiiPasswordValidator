@@ -25,7 +25,9 @@
  *
  * With Presets
  * <ul>
- * <li></li>
+ * <li>uniexistant preset</li>
+ * <li>presets 'relax', 'normal', 'strong' exist</li>
+ * <li>tests the presets</li>
  * </ul>
  * 
  * @author Sebastien Monterisi <sebastienmonterisi@yahoo.fr>
@@ -94,9 +96,8 @@ class SPasswordValidatorTest extends CTestCase
         $this->model->password = '';
         $this->assertFalse($this->model->validate());
 //        $this->assertErrorStringHas('too short');
-        
     }
-    
+
     /**
      * password with just one lower case character
      */
@@ -179,7 +180,7 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * - test SPasswordValidor 'digit' param 
+    * - test SPasswordValidor 'digit' param
     */
     public function testChangedDigit()
     {
@@ -189,7 +190,7 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * - test SPasswordValidor 'spec' param 
+    * - test SPasswordValidor 'spec' param
     */
     public function testChangedSpec()
     {
@@ -201,7 +202,6 @@ class SPasswordValidatorTest extends CTestCase
     /**
     * Undefined preset throw exception
     * @expectedException CException
-    * @todo doc
     */
     public function testPresetUndefined()
     {
@@ -212,7 +212,6 @@ class SPasswordValidatorTest extends CTestCase
     /**
     * Preset 'relax' exists
     * no exception so that preset exists
-    * @todo doc
     */
     public function testPresetExistsRelax()
     {
@@ -222,7 +221,6 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Preset 'normal' exists
-    * @todo doc
     */
     public function testPresetExistsNormal()
     {
@@ -232,7 +230,6 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Preset 'strong' exists
-    * @todo doc
     */
     public function testPresetExistsStrong()
     {
@@ -242,8 +239,6 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Preset 'relax' validation
-    * 
-    * @todo doc
     */
     public function testPresetValidateRelax()
     {
@@ -254,7 +249,6 @@ class SPasswordValidatorTest extends CTestCase
 
     /**
     * Preset 'normal' validation
-    * @todo doc
     */
     public function testPresetValidateNormal()
     {
@@ -264,14 +258,43 @@ class SPasswordValidatorTest extends CTestCase
     }
 
     /**
-    * Preset 'strong' exists
-    * @todo doc
+    * Preset 'strong' validation
     */
     public function testPresetValidateStrong()
     {
 	$this->model->password = '/SeBv77/';
         $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong');
         $this->assertTrue($this->model->validate());
+    }
+
+    /**
+    * Params set by preset param overrides single params
+    * @todo doc
+    */
+    public function testPresetOverridesSingle()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+    * Param 'max'
+    */
+    public function testParamMax()
+    {
+        $this->model->password = '/SeBv77soit"soverTen/';
+        $this->model->ruleOptions = array('password','ext.SPasswordValidator.SPasswordValidator', 'max' => 10);
+        $this->assertFalse($this->model->validate());
+        //$this->markTestIncomplete();
+    }
+
+    /**
+    * Param 'max' is too low for the attribute to validate
+    * eg 2 digits + 3 uppers and 'max'=4 : validation is impossible
+    * @exceptedException CException 
+    */
+    public function testMaxTooLow()
+    {
+        $this->markTestIncomplete();
     }
 
 }

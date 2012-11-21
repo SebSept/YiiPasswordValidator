@@ -39,8 +39,14 @@ class SPasswordValidator extends CValidator
     public $digit = 2;
 
     /**
+    * No limit if not set
+    * @var int maximum number of chars
+    */
+    public $max;
+
+    /**
     * If not null preset params will override other params
-    * @var string preset
+    * @var string preset - a set of parameters, @see $_preset
     */
     public $preset;
 
@@ -164,6 +170,18 @@ class SPasswordValidator extends CValidator
                                     array('found' => $found, 'required' => $this->min)
             );
         }
+
+        // max length
+        $found = strlen($value);
+        if($this->max && $found > $this->max)
+        {
+		$this->addErrorInternal($object, 
+                                    $attribute, 
+                                    "", 
+                                    array('found' => $found, 'required' => $this->max)
+            );
+
+        }
     }
 
     /**
@@ -198,21 +216,23 @@ class SPasswordValidator extends CValidator
     /**
     * Adds an error about the specified attribute to the active record.
     * This is a helper method that call addError which performs message selection and internationalization.
-    * 
+    *
     * Construct the message and the params array to call addError().
-    * 
+    *
     * @param CModel $object the data object being validated
     * @param string $attribute the attribute being validated
     * @param string $tested_param the tested property (eg 'upper case') for generating the error message
     * @param array $values values for the placeholders :is and :should in the error message - array(['found'] => <int>, ['required'] => <int>)
-     */
+    *
+    * @todo change message for correct message with 'max' param
+    */
     private function addErrorInternal($object, $attribute,$tested_param, array $values)
-    {   
+    {
         $message = ":attribute doesn't containt enough :tested_param characters. :found found whereas it must be at least :required."; 
         $params = array(':attribute' => $attribute, ':tested_param' => $tested_param, ':found' => $values['found'], ':required' => $values['required']);
         parent::addError($object, $attribute, $message, $params);
     }
-    
+
 }
 
 ?>
