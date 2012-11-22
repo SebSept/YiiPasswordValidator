@@ -81,10 +81,6 @@ Uncompress the archive in `protected/extensions/`. So path to php file will be `
 
 Use to the [_fullapp_ branch](https://github.com/SebSept/YiiPasswordValidator/tree/fullapp) to fork (include phpunit's unit tests)
 
-## Todo
-
-- Add a 'max' parameter to avoid using another rule for attribute length.
-
 ## Licences
 
 This code is published under the [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0) licence](http://creativecommons.org/licenses/by-sa/3.0/deed).
