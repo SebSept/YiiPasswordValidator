@@ -6,7 +6,7 @@
  * Ensure password is strong (at least with default parameters)
  *
  * @author Sébastien Monterisi <sebastienmonterisi@yahoo.fr>
- * @version 1.1
+ * @version 1.2
  */
 class SPasswordValidator extends CValidator
 {

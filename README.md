@@ -1,4 +1,4 @@
-# SPasswordValidator 1.1
+# SPasswordValidator 1.2
 
 SPasswordValidator is a password validator for the [Yii framework](http://www.yiiframework.com).
 
