@@ -1,6 +1,6 @@
 # SPasswordValidator 1.2
 
-SPasswordValidator is a password validator for the [Yii framework](http://www.yiiframework.com).
+SPasswordValidator is a password validator for the [Yii framework](http://www.yiiframework.com). Tested with yii 1.1.12.
 
 It's to use for a form/model validation rule.
 
@@ -15,6 +15,7 @@ It's to use for a form/model validation rule.
   - minimum number of lower case characters
   - minimum number of digits characters
   - minimum number of special characters
+- Max parameter to avoid using another validator (in case you store value not encoded)
 - Documentation included
 - Coded using unit tests
 
@@ -54,6 +55,19 @@ Number of upper case chars set to 1, minimum number of characters set to 10.
         );
     }
 ```
+
+Preset _strong_ plus a _max_ length (in case you store something else that a password, not encrypted)
+
+```php
+    public function rules()
+    {
+        return array(
+            array('password','ext.SPasswordValidator.SPasswordValidator', 'preset' => 'strong', 'max' => 41);
+        );
+    }
+```
+
+Parameter other than _max_ will be overriden by the preset parameters value.
 
 ## Installation 
 
