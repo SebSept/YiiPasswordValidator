@@ -18,11 +18,19 @@
 			<param name="Name" value="low">
 			<param name="Local" value="SPasswordValidator.html#low">
 			</object>
+							<li><object type="text/sitemap">
+			<param name="Name" value="max">
+			<param name="Local" value="SPasswordValidator.html#max">
+			</object>
 										<li><object type="text/sitemap">
 			<param name="Name" value="min">
 			<param name="Local" value="SPasswordValidator.html#min">
 			</object>
-																<li><object type="text/sitemap">
+										<li><object type="text/sitemap">
+			<param name="Name" value="preset">
+			<param name="Local" value="SPasswordValidator.html#preset">
+			</object>
+													<li><object type="text/sitemap">
 			<param name="Name" value="spec">
 			<param name="Local" value="SPasswordValidator.html#spec">
 			</object>

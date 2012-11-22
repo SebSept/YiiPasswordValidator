@@ -1,15 +1,15 @@
 <?php
 /**
- * SPasswordValidator 
- * 
+ * SPasswordValidator
+ *
  * Validator for passwords.
  * Ensure password is strong (at least with default parameters)
- * 
+ *
  * @author Sébastien Monterisi <sebastienmonterisi@yahoo.fr>
- * @version 0.2
+ * @version 1.2
  */
 class SPasswordValidator extends CValidator
-{    
+{
     /**
      *
      * @var int minimal number of characters
@@ -28,21 +28,65 @@ class SPasswordValidator extends CValidator
 
     /**
      *
-     * @var int minimal number of special characters 
+     * @var int minimal number of special characters
      */
     public $spec = 2;
-    
+
     /**
      *
-     * @var int  minimal number of digit characters 
+     * @var int  minimal number of digit characters
      */
     public $digit = 2;
+
+    /**
+    * No limit if not set. Provided to avoid using length validator
+    * @var int maximum number of chars
+    */
+    public $max;
+
+    /**
+    * If not null preset params will override other params
+    * @var string preset - a set of parameters, @see $_preset
+    */
+    public $preset;
+
+    /**
+    * Do not set a max param in preset because it will override the one provided by validator param
+    * @var preset allowed values
+    */
+    private $_presets = array(
+	self::PRESET_RELAX => array(
+		'min' => 6,
+		'up' => 1,
+		'low' => 1,
+		'digit' => 1,
+		'spec' => 0
+	),
+	self::PRESET_NORMAL => array(
+                'min' => 6,
+                'up' => 2,
+		'low' => 2,
+                'digit' => 1,
+                'spec' => 1
+        ),
+	self::PRESET_STRONG => array(
+                'min' => 8,
+                'up' => 2,
+		'low' => 2,
+                'digit' => 2,
+                'spec' => 2
+        ),
+);
+
+    const PRESET_RELAX = 'relax';
+    const PRESET_NORMAL = 'normal';
+    const PRESET_STRONG = 'strong';
 
 
 
     /**
      * Validation
-     * 
+     *
      * Function checks whether fulfill this requirements  :
      * <ul>
      *  <li>is a string</li>
@@ -57,8 +101,9 @@ class SPasswordValidator extends CValidator
      */
     protected function validateAttribute($object, $attribute)
     {
-//        $this->checkParams();
-        
+        $this->applyPreset();
+        $this->checkParams();
+
         $value = $object->$attribute;
 
         // is a string
@@ -127,26 +172,71 @@ class SPasswordValidator extends CValidator
                                     array('found' => $found, 'required' => $this->min)
             );
         }
+
+        // max length
+        $found = strlen($value);
+        if($this->max && ($found > $this->max) )
+        {
+		$this->addErrorInternal($object, 
+                                    $attribute, 
+                                    "max", 
+                                    array('found' => $found, 'required' => $this->max)
+            );
+
+        }
+    }
+
+    /**
+    * Apply Preset parameter if set
+    * @return void
+    */
+    private function applyPreset()
+    {
+        if(!$this->preset)
+            return;
+
+        if(array_key_exists($this->preset, $this->_presets))
+        {
+             foreach($this->_presets[$this->preset] As $param => $value)
+             {
+                 $this->$param = $value;
+             }
+        }
+	else
+		throw new CException("invalid preset '$this->preset'.");
+    }
+
+    /**
+    * Checks the provided parameters
+    * Checks if sum of required params values is greater than max
+    * @throw CException if more than max
+    */
+    private function checkParams()
+    {
+        $this->max = (int) $this->max;
+        if($this->max && ($this->up + $this->digit + $this->low + $this->spec) > $this->max)
+	    throw new CException('Total number of required characters is greater than max : Validation is impossible !');
     }
 
     /**
     * Adds an error about the specified attribute to the active record.
     * This is a helper method that call addError which performs message selection and internationalization.
-    * 
+    *
     * Construct the message and the params array to call addError().
-    * 
+    *
     * @param CModel $object the data object being validated
     * @param string $attribute the attribute being validated
     * @param string $tested_param the tested property (eg 'upper case') for generating the error message
     * @param array $values values for the placeholders :is and :should in the error message - array(['found'] => <int>, ['required'] => <int>)
-     */
+    *
+    * @todo change message for correct message with 'max' param
+    */
     private function addErrorInternal($object, $attribute,$tested_param, array $values)
-    {   
+    {
         $message = ":attribute doesn't containt enough :tested_param characters. :found found whereas it must be at least :required."; 
         $params = array(':attribute' => $attribute, ':tested_param' => $tested_param, ':found' => $values['found'], ':required' => $values['required']);
         parent::addError($object, $attribute, $message, $params);
     }
-    
+
 }
 
-?>
