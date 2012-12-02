@@ -233,7 +233,7 @@ class SPasswordValidator extends CValidator
     */
     private function addErrorInternal($object, $attribute,$tested_param, array $values)
     {
-        $message = ":attribute doesn't containt enough :tested_param characters. :found found whereas it must be at least :required."; 
+        $message = ":attribute doesn't contain enough :tested_param characters. :found found whereas it must be at least :required."; 
         $params = array(':attribute' => $attribute, ':tested_param' => $tested_param, ':found' => $values['found'], ':required' => $values['required']);
         parent::addError($object, $attribute, $message, $params);
     }
